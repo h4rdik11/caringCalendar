@@ -4,6 +4,7 @@ import "./App.css";
 import CalIcon from "./assets/icon-next-date.svg";
 import IconRight from "./assets/icon-left.svg";
 import IconLeft from "./assets/icon-right.svg";
+import { Grid, Button } from "@material-ui/core";
 
 function App() {
   const weekDayLong = moment.weekdays();
@@ -91,10 +92,21 @@ function App() {
         ),
         weekOff: date.date.day() === 0 || date.date.day() === 6,
       }));
-      
-      return { currentDate: currentDate, dateCells: newDateCell };
+
+      const weekRow = [];
+      Array(newDateCell.length / 7)
+        .fill([])
+        .forEach((dateArray, index) => {
+          const week = [];
+          for (let i = index * 7; i < index * 7 + 7; i++) {
+            week.push(newDateCell[i]);
+            dateArray.push(week[i]);
+          }
+          weekRow.push(week);
+        });
+      return { currentDate: currentDate, dateCells: newDateCell, weekRow };
     });
-  }
+  };
 
   useEffect(() => {
     setDate(moment(new Date()))();
@@ -103,49 +115,84 @@ function App() {
   return (
     <div className="App">
       <div className="cal-nav-bar">
-        <button className="today-button mdl-button mdl-js-button mdl-js-ripple-effect" onClick={setDate(moment(new Date()))}>
+        <Button
+          className="today-button"
+          variant="contained"
+          color="primary"
+          disableElevation
+          onClick={setDate(moment(new Date()))}
+        >
           <img src={CalIcon} alt="calIcon" />
           <span>Today</span>
-        </button>
+        </Button>
         <div className="nav-buttons">
-          <img src={IconLeft} alt="iconLeft" onClick={setDate(moment(state.currentDate).subtract(1, "months").set({ date: 1 }))} />
-          <span>
-            {state.currentDate.format("MMMM YYYY")}
-          </span>
-          <img src={IconRight} alt="iconRight"onClick={setDate(moment(state.currentDate).add(1, "months").set({ date: 1 }))}  />
+          <img
+            src={IconLeft}
+            alt="iconLeft"
+            onClick={setDate(
+              moment(state.currentDate).subtract(1, "months").set({ date: 1 })
+            )}
+          />
+          <span>{state.currentDate.format("MMMM YYYY")}</span>
+          <img
+            src={IconRight}
+            alt="iconRight"
+            onClick={setDate(
+              moment(state.currentDate).add(1, "months").set({ date: 1 })
+            )}
+          />
         </div>
       </div>
-      <div className="week-grid">
+      <Grid container className="week-grid">
         {weekDayLong.map((day) => (
-          <span key={day} className="calendar-header">
-            {day.toUpperCase()}
-          </span>
+          <Grid item xs className="calendar-header" key={`week_day__${day}`}>
+            <span key={day}>{day.toUpperCase()}</span>
+          </Grid>
         ))}
-      </div>
-      <div className="days-grid">
-        {state.dateCells.map((date, i) => {
-            return (
-              <div
-                key={date.date.format("DDMMYYYY")}
-                className={`calendar-cell${i % 2 === 0 ? " light" : " dark"}${(date.isNext || date.isPrevious || date.weekOff) ? " faded" : ""}`}
-                onClick={setDate(date.date)}
-              >
-                <div className={`calendar-cell-inner${date.isToday ? " border" : ""}`}>
-                  <span className="date">
-                    {date.date.format("DD")}
-                    {date.isToday && <small>{date.date.format("MMMM")}</small>}
-                  </span>
-                  {date.hasAppointments && !date.weekOff && (
-                    <span className="caption">No Appointment</span>
-                  )}
-                  {date.weekOff && (
-                    <span className="caption">Week Off</span>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-      </div>
+      </Grid>
+      {state.weekRow &&
+        state.weekRow.map((week, week_i) => {
+          return (
+            <Grid container key={`week__${week_i}`} style={{ height: "100%" }}>
+              {week.map((date, i) => {
+                return (
+                  <Grid item xs key={`day__${i}`}>
+                    <div
+                      key={date.date.format("DDMMYYYY")}
+                      className={`calendar-cell${
+                        (i + week_i) % 2 === 0 ? " light" : " dark"
+                      }${
+                        date.isNext || date.isPrevious || date.weekOff
+                          ? " faded"
+                          : ""
+                      }`}
+                      onClick={setDate(date.date)}
+                    >
+                      <div
+                        className={`calendar-cell-inner${
+                          date.isToday ? " border" : ""
+                        }`}
+                      >
+                        <span className="date">
+                          {date.date.format("DD")}
+                          {date.isToday && (
+                            <small>{date.date.format("MMMM")}</small>
+                          )}
+                        </span>
+                        {date.hasAppointments && !date.weekOff && (
+                          <span className="caption">No Appointment</span>
+                        )}
+                        {date.weekOff && (
+                          <span className="caption">Week Off</span>
+                        )}
+                      </div>
+                    </div>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          );
+        })}
     </div>
   );
 }

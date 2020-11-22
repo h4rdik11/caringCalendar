@@ -1,13 +1,13 @@
 * {
   box-sizing: border-box;
-  background-color: #121212;
-  font-family: "Poppins", sans-serif !important;
 }
 
 html,
 body,
 #root {
   height: 100%;
+  background-color: #121212;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .App {
@@ -17,18 +17,8 @@ body,
   padding: 1em;
 }
 
-.week-grid,
-.days-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}
-
 .week-grid {
-  flex-grow: 0;
-}
-
-.days-grid {
-  flex-grow: 2;
+  padding: 15px 0px;
 }
 
 .calendar-header {
@@ -36,12 +26,13 @@ body,
   color: #999999;
   text-align: center;
   font-weight: 400;
-  padding: 5% 0px;
+  padding: 0.5% 0px;
 }
 
 .calendar-cell {
   color: #e6e6e6;
   padding: 10px;
+  height: 100%;
 }
 
 .calendar-cell.faded{
@@ -99,15 +90,16 @@ body,
   flex-direction: row;
   justify-content: left;
   align-items: center;
-  overflow: hidden;
+  /* overflow: hidden; */
   width: 100%;
   background-color: #1f1f1f;
   margin-bottom: 10px;
   border-radius: 100px;
+  min-height: fit-content;
 }
 
 .cal-nav-bar .today-button,
-.cal-nav-bar .today-button:focus {
+.cal-nav-bar .today-button:hover {
   background-color: #0f6ebe;
   color: #ffffff;
   display: flex;
@@ -115,6 +107,7 @@ body,
   justify-content: center;
   align-items: center;
   height: 100%;
+  border-radius: 100px 0px 0px 100px;
 }
 
 .cal-nav-bar .today-button img {
