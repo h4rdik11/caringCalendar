@@ -1,38 +1,253 @@
+* {
+  box-sizing: border-box;
+  background-color: #121212;
+  font-family: "Poppins", sans-serif !important;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  padding: 1em;
+}
+
+.week-grid,
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.week-grid {
+  flex-grow: 0;
+}
+
+.days-grid {
+  flex-grow: 2;
+}
+
+.calendar-header {
+  font-size: 15px;
+  color: #999999;
+  text-align: center;
+  font-weight: 400;
+  padding: 5% 0px;
+}
+
+.calendar-cell {
+  color: #e6e6e6;
+  padding: 10px;
+}
+
+.calendar-cell.faded{
+  opacity: 0.3;
+}
+
+.calendar-cell span {
+  display: block;
+}
+
+.calendar-cell div,
+.calendar-cell div span,
+.calendar-cell div span small {
+  background: transparent;
+}
+
+.calendar-cell-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+}
+.calendar-cell-inner.border{
+  border-left: 3px solid #0f6ebe;
+}
+
+.calendar-cell-inner .date {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.calendar-cell-inner .date small {
+  font-weight: lighter;
+  font-size: 15px;
+  margin-left: 5px;
+}
+
+.calendar-cell-inner .caption {
+  font-size: 12px;
+  color: #666666;
+}
+
+.calendar-cell.light {
+  background-color: #1c1c1c;
+}
+
+.calendar-cell.dark {
+  background-color: #171717;
+}
+
+.cal-nav-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
   align-items: center;
+  overflow: hidden;
+  width: 100%;
+  background-color: #1f1f1f;
+  margin-bottom: 10px;
+  border-radius: 100px;
+}
+
+.cal-nav-bar .today-button,
+.cal-nav-bar .today-button:focus {
+  background-color: #0f6ebe;
+  color: #ffffff;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  height: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.cal-nav-bar .today-button img {
+  margin-right: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.cal-nav-bar .today-button span {
+  font-size: 13px;
+}
+
+.cal-nav-bar .today-button img,
+.cal-nav-bar .today-button span {
+  background-color: transparent;
+}
+
+.cal-nav-bar .nav-buttons {
+  height: 100%;
+  border-right: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1f1f1f;
+}
+
+.cal-nav-bar .nav-buttons span {
+  display: block;
+  background-color: transparent;
+  color: #999999;
+}
+.cal-nav-bar .nav-buttons img {
+  padding: 15px;
+  cursor: pointer;
+  background-color: #1f1f1f;
+}
+
+/* 
+  48em; // 768px
+  64em; // 1024px
+  85.375em; // 1366px
+  120em; // 1920px
+  160em; // 2560px 
+*/
+
+/* @media(min-width: 48em){
+
+}
+
+@media(min-width: 64em){
+
+}
+
+@media(min-width: 85.375em){
+
+} */
+
+@media (min-width: 120em) {
+  .calendar-cell {
+    padding: 25px;
   }
-  to {
-    transform: rotate(360deg);
+  .calendar-cell-inner {
+    padding: 20px;
+  }
+
+  .calendar-cell-inner .date {
+    font-size: 35px;
+  }
+
+  .calendar-cell-inner .date small {
+    font-size: 20px;
+  }
+
+  .calendar-cell-inner .caption {
+    font-size: 15px;
   }
 }
+
+@media (min-width: 160em) {
+  .calendar-header {
+    font-size: 25px;
+  }
+  .calendar-cell {
+    padding: 20px;
+  }
+
+  .calendar-cell-inner {
+    padding: 25px;
+    border-left-width: 5px;
+  }
+
+  .calendar-cell-inner .date {
+    font-size: 50px;
+  }
+
+  .calendar-cell-inner .date small {
+    font-size: 30px;
+  }
+
+  .calendar-cell-inner .caption {
+    font-size: 22px;
+  }
+
+  .cal-nav-bar .today-button{
+    width: 150px;
+  }
+
+  .cal-nav-bar .today-button img {
+    margin-right: 10px;
+    width: 20px;
+  }
+
+  .cal-nav-bar .today-button span {
+    font-size: 15px;
+  }
+
+  .cal-nav-bar .today-button img,
+  .cal-nav-bar .today-button span {
+    background-color: transparent;
+  }
+
+  .cal-nav-bar .nav-buttons {
+    border-width: 2px;
+  }
+
+  .cal-nav-bar .nav-buttons span {
+    font-size: 20px;
+  }
+
+  .cal-nav-bar .nav-buttons img {
+    width: 55px;
+  }
+}
+
+/* @media(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi){
+
+} */
